@@ -21,6 +21,16 @@ public class DBInitializer implements CommandLineRunner {
 
     @Autowired
     private RoleRepository roleRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
+
+    @Autowired
+    private AppRepository appRepository;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -30,6 +40,20 @@ public class DBInitializer implements CommandLineRunner {
         role2.setRolType("ADMIN");
         roleRepository.save(role1);
         roleRepository.save(role2);
+
+        User user1 = new User();
+        user1.setUsername("pepito");
+        user1.setPassword("1234");
+        user1.setEmail("pepito@example.com");
+        user1.setTelephone("123456");
+        user1.setRole(role1);
+        userRepository.save(user1);
+
+        Account account1 = new Account();
+        account1.setPassword("1000.0");
+        account1.setUser(user1);
+        account1.setApp(appRepository.save(new App()));
+        accountRepository.save(account1);
 
     }
 }
