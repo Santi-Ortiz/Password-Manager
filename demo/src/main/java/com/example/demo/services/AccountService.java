@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service;
 import com.example.demo.repositories.AccountRepository;
 
 @Service
-public class UserService {
+public class AccountService {
 
     @Autowired
-    private UserRepository userRepository;
+    private AccountRepository accountRepository;
     
 }

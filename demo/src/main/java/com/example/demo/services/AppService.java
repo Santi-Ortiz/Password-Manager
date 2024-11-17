@@ -3,12 +3,12 @@ package com.example.demo.services;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.repositories.AccountRepository;
+import com.example.demo.repositories.AppRepository;
 
 @Service
-public class UserService {
+public class AppService {
 
     @Autowired
-    private UserRepository userRepository;
+    private AppRepository appRepository;
     
 }
