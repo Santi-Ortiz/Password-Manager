@@ -58,6 +58,6 @@ public class AccountService {
     
     @Transactional
     public List<Account> getAllAccountsByUserId(Long userId){
-        return accountRepository.findAllByUserId(userId);
+        return accountRepository.findAllByUser_UserId(userId);
     }
 }

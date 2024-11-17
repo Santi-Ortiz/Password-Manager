@@ -9,6 +9,6 @@ import com.example.demo.entities.Account;
 
 @Repository
 public interface AccountRepository extends JpaRepository<Account,Long> {
-    List<Account> findAllByUserId(Long userId);
-    
+    List<Account> findAllByUser_UserId(Long userId);
+
 }

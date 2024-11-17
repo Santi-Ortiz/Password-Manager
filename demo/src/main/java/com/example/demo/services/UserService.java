@@ -81,7 +81,7 @@ public class UserService {
     public List<Account> getAllAccountsByUser(Long userId){
         if(userRepository.findById(userId).isPresent()){
             User user = userRepository.findById(userId).get();
-            List<Account> accounts = accountRepository.findAllByUserId(user.getUserId());
+            List<Account> accounts = accountRepository.findAllByUser_UserId(user.getUserId());
             return accounts;
         } else {
             throw new IllegalStateException("Usuario no encontrado");
