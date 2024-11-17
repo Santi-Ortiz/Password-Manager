@@ -9,9 +9,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Account {
-    private Long accountId;
-    private App app;
-    private User user;
-    private String password;
+public class App {
+    private Long appId;
+    private String name;
+    private String description;
+    private String url;
 }
