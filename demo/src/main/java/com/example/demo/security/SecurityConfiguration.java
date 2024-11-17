@@ -45,14 +45,7 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/autenticacion/refresh/**")
-                        .authenticated()
-                        .requestMatchers("/autenticacion/**")
-                        .permitAll()
-                        .requestMatchers("/files/aprobar-documento/**")
-                        .permitAll()
-                        .anyRequest()
-                        .authenticated())
+                        .anyRequest().permitAll())
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
