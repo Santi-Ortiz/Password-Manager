@@ -46,10 +46,10 @@ public class UserService {
             throw new IllegalStateException("El nombre de usuario ya está en uso");
         }
 
-        if (user.getRole() == null || user.getRole().getId() == 0) {
-            System.out.println("Rol inválido");
-            throw new IllegalStateException("El rol no puede ser nulo o inválido");
-        }
+        // if (user.getRole() == null || user.getRole().getId() == 0) {
+        //     System.out.println("Rol inválido");
+        //     throw new IllegalStateException("El rol no puede ser nulo o inválido");
+        // }
 
         System.out.println("Usuario guardado exitosamente");
         return userRepository.save(user);

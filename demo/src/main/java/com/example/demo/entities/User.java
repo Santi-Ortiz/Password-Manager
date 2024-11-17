@@ -31,13 +31,12 @@ public class User implements UserDetails {
     private String telephone;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonIgnore
-    private List<Account> accounts; // Relación uno a muchos con Account
+    private List<Account> accounts;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
