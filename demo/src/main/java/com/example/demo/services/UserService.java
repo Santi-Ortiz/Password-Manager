@@ -4,12 +4,16 @@ import com.example.demo.repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
 
+import java.util.Collection;
+
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.example.demo.entities.Account;
 import com.example.demo.entities.User;
 import com.example.demo.repositories.AccountRepository;
 
@@ -18,6 +22,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
@@ -69,5 +76,18 @@ public class UserService {
             throw new IllegalStateException("Usuario no encontrado");
         }
     }
+
+    @Transactional
+    public List<Account> getAllAccountsByUser(Long userId){
+        if(userRepository.findById(userId).isPresent()){
+            User user = userRepository.findById(userId).get();
+            List<Account> accounts = accountRepository.findAllByUserId(user.getUserId());
+            return accounts;
+        } else {
+            throw new IllegalStateException("Usuario no encontrado");
+        }
+    }
+
+
     
 }
