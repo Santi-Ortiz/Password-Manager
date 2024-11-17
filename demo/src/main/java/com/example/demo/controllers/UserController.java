@@ -43,16 +43,15 @@ public class UserController {
     // http://localhost:8080/api/user/agregar
     @PostMapping("/agregar")
     public ResponseEntity<String> addUser(@RequestBody User user) {
-
-        if(userService.getUserById(user.getUserId()) != null){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("El usuario ya existe");
-        }
+        System.out.println("Entro a endpoint saveUser");
 
         try {
+            System.out.println("Antes de guardar usuario");
             userService.saveUser(user);
             return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado");
             
         } catch (Exception e) {
+            System.out.println("Error al guardar usuario");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear el usuario");
         }
     }

@@ -38,13 +38,21 @@ public class UserService {
 
     @Transactional
     public User saveUser(User user) {
-        if (userRepository.findById(user.getUserId()).isPresent()) {
-            throw new IllegalStateException("Usuario ya existente");
-        } else {
-            User newUser = userRepository.findById(user.getUserId()).get();
-            userRepository.save(newUser);
-            return newUser;
+        System.out.println("Entro a servicio saveUser");
+        System.out.println("nombre de usuario: " + user.getUsername());
+
+        if (userRepository.findByUsername(user.getUsername()).isPresent()) {
+            System.out.println("Usuario ya existente con el mismo nombre de usuario");
+            throw new IllegalStateException("El nombre de usuario ya está en uso");
         }
+
+        if (user.getRole() == null || user.getRole().getId() == 0) {
+            System.out.println("Rol inválido");
+            throw new IllegalStateException("El rol no puede ser nulo o inválido");
+        }
+
+        System.out.println("Usuario guardado exitosamente");
+        return userRepository.save(user);
     }
 
     @Transactional
