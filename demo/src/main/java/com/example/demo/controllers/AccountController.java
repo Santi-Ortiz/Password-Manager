@@ -39,7 +39,7 @@ public class AccountController {
     }
 
     // http://localhost:8090/api/account/agregar
-    @PostMapping("/agregar")
+    @PostMapping("/add")
     public ResponseEntity<String> addAccount(@RequestBody Account account) {
         
         if(accountService.getAccountById(account.getAccountId()) != null){
@@ -87,12 +87,23 @@ public class AccountController {
         }
     }
 
-    // http://localhost:8090/api/account/user/{userId}/accounts
-    @GetMapping("/user/{userId}/accounts")
+    // http://localhost:8090/api/account/user/{userId}
+    @GetMapping("/user/{userId}")
     public ResponseEntity<List<Account>> getAllAccountsByUserId(@PathVariable("userId") Long userId) {
         try {
             List<Account> accounts = accountService.getAllAccountsByUserId(userId);
             return new ResponseEntity<>(accounts, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    // http://localhost:8090/api/account/app/{appId}
+    @GetMapping("/app/{appId}")
+    public ResponseEntity<App> getAppByAppId(@PathVariable("appId") Long appId){
+        try {
+            App app = accountService.getAppByAppId(appId);
+            return new ResponseEntity<>(app, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

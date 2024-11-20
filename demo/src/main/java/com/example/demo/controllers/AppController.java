@@ -13,5 +13,4 @@ public class AppController {
 
     @Autowired
     private AppService appService;
-    
 }

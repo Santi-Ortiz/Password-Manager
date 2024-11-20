@@ -41,7 +41,7 @@ public class UserController {
     }
 
     // http://localhost:8090/api/user/agregar
-    @PostMapping("/agregar")
+    @PostMapping("/add")
     public ResponseEntity<String> addUser(@RequestBody User user) {
         System.out.println("Entro a endpoint saveUser");
 

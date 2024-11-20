@@ -60,4 +60,9 @@ public class AccountService {
     public List<Account> getAllAccountsByUserId(Long userId){
         return accountRepository.findAllByUser_UserId(userId);
     }
+
+    @Transactional
+    public App getAppByAppId(Long appId){
+        return accountRepository.findByApp_appId(appId);
+    }
 }
