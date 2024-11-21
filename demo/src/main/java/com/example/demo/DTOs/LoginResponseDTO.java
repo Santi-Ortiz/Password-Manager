@@ -8,4 +8,6 @@ public class LoginResponseDTO {
     private String accessToken;
     private String username;
     private String role;
+    private Long userId;
+    private boolean enabled;
 }

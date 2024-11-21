@@ -35,6 +35,9 @@ public class DBInitializer implements CommandLineRunner {
     @Autowired
     private AppRepository appRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -53,7 +56,7 @@ public class DBInitializer implements CommandLineRunner {
 
         User user1 = new User();
         user1.setUsername("pepito");
-        user1.setPassword("1234");
+        user1.setPassword(passwordEncoder.encode("hola1234"));
         user1.setEmail("pepito@example.com");
         user1.setTelephone("123456");
         user1.setRole(role1);

@@ -26,8 +26,9 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequestDTO body) {
-        return ResponseEntity.ok(
-                autenticacionService.login(body.getUsername(), body.getPassword())
+        System.out.println("Entra a login endpoint con: " + body.getUsername() + " " + body.getPassword());
+
+        return ResponseEntity.ok(autenticacionService.login(body.getUsername(), body.getPassword())
         );
     }
 
