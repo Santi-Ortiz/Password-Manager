@@ -11,6 +11,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TwoFA {
+    private User userDestination;
     private String value;
     private Date expirationTime;
 }
