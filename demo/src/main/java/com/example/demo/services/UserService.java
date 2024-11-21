@@ -41,19 +41,32 @@ public class UserService {
         System.out.println("Entro a servicio saveUser");
         System.out.println("nombre de usuario: " + user.getUsername());
 
+        // Verificar si el nombre de usuario ya existe
         if (userRepository.findByUsername(user.getUsername()).isPresent()) {
             System.out.println("Usuario ya existente con el mismo nombre de usuario");
             throw new IllegalStateException("El nombre de usuario ya está en uso");
         }
 
-        // if (user.getRole() == null || user.getRole().getId() == 0) {
-        //     System.out.println("Rol inválido");
-        //     throw new IllegalStateException("El rol no puede ser nulo o inválido");
-        // }
+        // Verificar si el correo electrónico ya existe
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            System.out.println("Correo electrónico ya en uso");
+            throw new IllegalStateException("El correo electrónico ya está en uso");
+        }
 
+        System.out.println("Antes de guardar usuario en repo");
+        System.out.println("Id de usuario: " + user.getUserId());
+        System.out.println("Nombre de usuario: " + user.getUsername());
+        System.out.println("Contraseña: " + user.getPassword());
+        System.out.println("Rol: " + user.getRole().getRolType() + " con id: " + user.getRole().getId());
+        System.out.println("Correo: " + user.getEmail());
+        System.out.println("Teléfono: " + user.getTelephone());
+
+        // Guardar el usuario en la base de datos
+        userRepository.save(user);
         System.out.println("Usuario guardado exitosamente");
-        return userRepository.save(user);
+        return user;
     }
+
 
     @Transactional
     public User updateUser(User user) {

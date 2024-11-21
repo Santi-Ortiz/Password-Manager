@@ -2,7 +2,9 @@ package com.example.demo.controllers;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -42,17 +44,26 @@ public class UserController {
 
     // http://localhost:8090/api/user/agregar
     @PostMapping("/add")
-    public ResponseEntity<String> addUser(@RequestBody User user) {
+    public ResponseEntity<Map<String, String>> addUser(@RequestBody User user) {
         System.out.println("Entro a endpoint saveUser");
 
         try {
             System.out.println("Antes de guardar usuario");
             userService.saveUser(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body("Usuario creado");
-            
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Usuario creado");
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (IllegalStateException e) {
+            // Manejar errores de validación específicos
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
         } catch (Exception e) {
+            // Manejar errores genéricos
             System.out.println("Error al guardar usuario");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al crear el usuario");
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("message", "Error al crear el usuario");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorResponse);
         }
     }
 
