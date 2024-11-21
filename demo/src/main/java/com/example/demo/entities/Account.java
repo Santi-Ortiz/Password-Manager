@@ -19,14 +19,12 @@ public class Account {
     private Long accountId;
 
     @OneToOne
-    @JsonIgnore
     @JoinColumn(name = "app_id", nullable = false)
-    private App app; // Relación uno a uno con App
+    private App app;
 
     @ManyToOne
-    @JsonIgnore
     @JoinColumn(name = "user_id", nullable = false)
-    private User user; // Relación muchos a uno con User
+    private User user;
 
     private String password;
 }

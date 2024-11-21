@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 
 @RestController
-@RequestMapping("/autenticacion")
+@RequestMapping("/api/autenticacion")
 public class AuthenticationController {
 
     @Autowired

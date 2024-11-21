@@ -6,7 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.entities.Account;
+import com.example.demo.entities.App;
+import com.example.demo.entities.User;
 import com.example.demo.repositories.AccountRepository;
+import com.example.demo.repositories.AppRepository;
+import com.example.demo.repositories.UserRepository;
 
 import jakarta.transaction.Transactional;
 
@@ -16,26 +20,41 @@ public class AccountService {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private AppRepository appRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @Transactional
-    public Account saveAccount(Account account) {
-        if (accountRepository.findById(account.getAccountId()).isPresent()) {
-            throw new IllegalStateException("Cuenta ya existente");
-        } else {
-            Account newAccount = accountRepository.findById(account.getAccountId()).get();
-            accountRepository.save(newAccount);
-            return newAccount;
-        }
+    public Account addAccount(Account account) {
+        App app = appRepository.findById(account.getApp().getAppId())
+            .orElseThrow(() -> new IllegalStateException("App no encontrada"));
+
+        User user = userRepository.findById(account.getUser().getUserId())
+            .orElseThrow(() -> new IllegalStateException("Usuario no encontrado"));
+
+        account.setApp(app);
+        account.setUser(user);
+
+        return accountRepository.save(account);
     }
 
     @Transactional
     public Account updateAccount(Account account) {
-        if (accountRepository.findById(account.getAccountId()).isPresent()) {
-            Account newAccount = accountRepository.findById(account.getAccountId()).get();
-            accountRepository.save(newAccount);
-            return newAccount;
-        } else {
-            throw new IllegalStateException("Cuenta no encontrada");
-        }
+        Account existingAccount = accountRepository.findById(account.getAccountId())
+                .orElseThrow(() -> new IllegalStateException("Cuenta no encontrada"));
+
+        App app = appRepository.findById(account.getApp().getAppId())
+                .orElseThrow(() -> new IllegalStateException("App no encontrada"));
+        User user = userRepository.findById(account.getUser().getUserId())
+                .orElseThrow(() -> new IllegalStateException("Usuario no encontrado"));
+
+        existingAccount.setPassword(account.getPassword());
+        existingAccount.setApp(app);
+        existingAccount.setUser(user); 
+
+        return accountRepository.save(existingAccount);
     }
 
     @Transactional
