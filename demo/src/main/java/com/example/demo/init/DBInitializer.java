@@ -2,8 +2,12 @@ package com.example.demo.init;
 
 import com.example.demo.entities.*;
 import com.example.demo.repositories.*;
+
+import io.github.cdimascio.dotenv.Dotenv;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,6 +38,12 @@ public class DBInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
 
+        // Dotenv dotenv = Dotenv.load();
+        // System.setProperty("DATABASE_URL", dotenv.get("DATABASE_URL"));
+        // System.setProperty("DATABASE_USER", dotenv.get("DATABASE_USER"));
+        // System.setProperty("DATABASE_PASSWORD", dotenv.get("DATABASE_PASSWORD"));
+        // System.setProperty("JWT_SIGNING_KEY", dotenv.get("JWT_SIGNING_KEY"));
+
         Role role1 = new Role();
         role1.setRolType("USER");
         Role role2 = new Role();
@@ -55,6 +65,8 @@ public class DBInitializer implements CommandLineRunner {
         account1.setUser(user1);
         account1.setApp(appRepository.save(new App()));
         accountRepository.save(account1);
+
+        //SpringApplication.run(DBInitializer.class, args);
 
     }
 }
