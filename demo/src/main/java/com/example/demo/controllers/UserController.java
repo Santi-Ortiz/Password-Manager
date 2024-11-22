@@ -9,6 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entities.Account;
@@ -22,6 +23,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // http://localhost:8090/api/user/find/{id}
     @GetMapping("/find/{id}")
@@ -41,6 +45,7 @@ public class UserController {
 
         try {
             System.out.println("Antes de guardar usuario");
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             userService.saveUser(user);
             Map<String, String> response = new HashMap<>();
             response.put("message", "Usuario creado");
