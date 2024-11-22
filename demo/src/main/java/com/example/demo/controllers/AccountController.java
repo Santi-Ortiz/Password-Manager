@@ -21,9 +21,13 @@ public class AccountController {
     public ResponseEntity<String> addAccount(@RequestBody Account account) {
         try {
             System.out.println("Entrando a endpoint de agregar cuenta");
+            System.out.println("Cuenta: " + account.getAccountId());
+            System.out.println("Id de app: " + account.getApp().getAppId());
+            System.out.println("Contraseña: " + account.getPassword());
+            System.out.println("Id de user: " + account.getUser().getUserId());
             accountService.addAccount(account);
             System.out.println("Cuenta creada exitosamente");
-            return new ResponseEntity<>("Cuenta creada exitosamente", HttpStatus.CREATED);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
             System.out.println("Error al crear la cuenta: " + e.getMessage());
             return new ResponseEntity<>("Error al crear la cuenta: " + e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -59,7 +63,7 @@ public class AccountController {
     public ResponseEntity<String> deleteAccount(@PathVariable("id") Long accountId) {
         try {
             accountService.deleteAccount(accountId);
-            return new ResponseEntity<>("Cuenta eliminada exitosamente", HttpStatus.OK);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
             return new ResponseEntity<>("Error al eliminar la cuenta: " + e.getMessage(), HttpStatus.NOT_FOUND);
         }

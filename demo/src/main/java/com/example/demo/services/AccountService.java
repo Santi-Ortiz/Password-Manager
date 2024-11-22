@@ -39,13 +39,17 @@ public class AccountService {
     @Transactional
     public Account addAccount(Account account) {
         validateToken(); // Validar el token
-        
+
 
         App app = appRepository.findById(account.getApp().getAppId())
                 .orElseThrow(() -> new IllegalStateException("App no encontrada"));
 
         User user = userRepository.findById(account.getUser().getUserId())
                 .orElseThrow(() -> new IllegalStateException("Usuario no encontrado"));
+
+        System.out.println("App desde servicio: " + app.getName());
+        System.out.println("App desde servicio: " + app.getAppId());
+        System.out.println("Usuario desde servicio: " + user.getUserId());
 
         account.setApp(app);
         account.setUser(user);
