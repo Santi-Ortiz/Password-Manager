@@ -63,7 +63,7 @@ public class AccountController {
     }
 
     // Obtener todas las cuentas de un usuario
-    @GetMapping("/user-accounts/{userId}")
+    @GetMapping("/user-accounts" + "/{userId}")
     public ResponseEntity<List<Account>> getAccountsByUserId(@PathVariable("userId") Long userId) {
         try {
             List<Account> accounts = accountService.getAllAccountsByUserId(userId);

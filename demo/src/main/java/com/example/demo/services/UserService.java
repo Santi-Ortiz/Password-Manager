@@ -136,7 +136,7 @@ public class UserService {
 
     private void sendActivationMail(User usuario) {
         try {
-            String subject = "Por favor active su cuenta";
+            String subject = usuario.getUsername()+"! Activa tu cuenta de CriptSafe ;)";
             // Usar un valor configurable para la URL base
             String baseUrl = "http://localhost:8090"; // Puedes externalizar esto a application.properties
             String activationUrl = baseUrl + "/api/user/activate/" + usuario.getUserId();

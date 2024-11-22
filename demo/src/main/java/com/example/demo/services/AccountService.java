@@ -26,13 +26,25 @@ public class AccountService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private TwoFAService twoFAService; // Inyectar TwoFAService
+
+    // Método para validar el token
+    private void validateToken() {
+        if (!twoFAService.isTokenValid()) {
+            throw new IllegalStateException("Invalid token");
+        }
+    }
+
     @Transactional
     public Account addAccount(Account account) {
+        validateToken(); // Validar el token
+
         App app = appRepository.findById(account.getApp().getAppId())
-            .orElseThrow(() -> new IllegalStateException("App no encontrada"));
+                .orElseThrow(() -> new IllegalStateException("App no encontrada"));
 
         User user = userRepository.findById(account.getUser().getUserId())
-            .orElseThrow(() -> new IllegalStateException("Usuario no encontrado"));
+                .orElseThrow(() -> new IllegalStateException("Usuario no encontrado"));
 
         account.setApp(app);
         account.setUser(user);
@@ -42,6 +54,8 @@ public class AccountService {
 
     @Transactional
     public Account updateAccount(Account account) {
+        validateToken(); // Validar el token
+
         Account existingAccount = accountRepository.findById(account.getAccountId())
                 .orElseThrow(() -> new IllegalStateException("Cuenta no encontrada"));
 
@@ -52,13 +66,15 @@ public class AccountService {
 
         existingAccount.setPassword(account.getPassword());
         existingAccount.setApp(app);
-        existingAccount.setUser(user); 
+        existingAccount.setUser(user);
 
         return accountRepository.save(existingAccount);
     }
 
     @Transactional
     public void deleteAccount(Long accountId) {
+        validateToken(); // Validar el token
+
         if (accountRepository.findById(accountId).isPresent()) {
             accountRepository.deleteById(accountId);
         } else {
@@ -67,21 +83,27 @@ public class AccountService {
     }
 
     public Account getAccountById(Long accountId) {
+        validateToken(); // Validar el token
+
         if(accountRepository.findById(accountId).isPresent()) {
             Account account = accountRepository.findById(accountId).get();
             return account;
         } else {
             throw new IllegalStateException("Cuenta no encontrada");
         }
-    } 
-    
+    }
+
     @Transactional
     public List<Account> getAllAccountsByUserId(Long userId){
+        validateToken(); // Validar el token
+
         return accountRepository.findAllByUser_UserId(userId);
     }
 
     @Transactional
     public App getAppByAppId(Long appId){
+        validateToken(); // Validar el token
+
         return accountRepository.findByApp_appId(appId);
     }
 }
