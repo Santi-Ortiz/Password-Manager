@@ -26,5 +26,7 @@ public class Account {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    private String usernameFromApp;
+
     private String password;
 }

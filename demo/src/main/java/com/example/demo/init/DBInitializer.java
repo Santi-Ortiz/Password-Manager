@@ -63,10 +63,17 @@ public class DBInitializer implements CommandLineRunner {
         user1.setEnabled(true);
         userRepository.save(user1);
 
+        App app1 = new App();
+        app1.setName("Youtube App 1");
+        app1.setUrl("http://www.youtube.com");
+        app1.setDescription("Youtube App 1 Description");
+        appRepository.save(app1);
+
         Account account1 = new Account();
-        account1.setPassword("1000.0");
+        account1.setUsernameFromApp("pepitoFromApp");
+        account1.setPassword("myAppPassword");
         account1.setUser(user1);
-        account1.setApp(appRepository.save(new App()));
+        account1.setApp(appRepository.save(app1));
         accountRepository.save(account1);
 
         //SpringApplication.run(DBInitializer.class, args);

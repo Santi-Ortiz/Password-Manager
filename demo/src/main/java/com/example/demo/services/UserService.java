@@ -7,7 +7,13 @@ import jakarta.transaction.Transactional;
 import java.util.Collection;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,6 +31,12 @@ public class UserService {
 
     @Autowired
     private AccountRepository accountRepository;
+
+    @Autowired
+    private JavaMailSender mailSender;
+
+    @Value("${spring.mail.username}") // Inyecta el correo configurado en application.properties
+    private String fromEmail;
 
     public UserDetailsService userDetailsService() {
         return new UserDetailsService() {
@@ -64,6 +76,7 @@ public class UserService {
         // Guardar el usuario en la base de datos
         userRepository.save(user);
         System.out.println("Usuario guardado exitosamente");
+        sendActivationMail(user);
         return user;
     }
 
@@ -109,6 +122,39 @@ public class UserService {
         }
     }
 
+    public User activateUser(Long id) {
+        Optional<User> usuarioOptional = userRepository.findById(id);
+        if (usuarioOptional.isPresent()) {
+            User usuario = usuarioOptional.get();
+            usuario.setEnabled(true); // Marcar como autenticado
+            usuario = userRepository.save(usuario); // Guardar cambios en la base de datos
+            return usuario;
+        } else {
+            throw new IllegalArgumentException("El usuario no existe.");
+        }
+    }
 
-    
+    private void sendActivationMail(User usuario) {
+        try {
+            String subject = "Por favor active su cuenta";
+            // Usar un valor configurable para la URL base
+            String baseUrl = "http://localhost:8090"; // Puedes externalizar esto a application.properties
+            String activationUrl = baseUrl + "/api/user/activate/" + usuario.getUserId();
+            String message = "Bienvenido a CriptSafe! Tu aplicación web de confianza para la gestión segura de todo tipo de cuentas.\n\n" +
+                    "Estamos muy emocionados de tenerte con nosotros, para poder hacer parte de nuestra familia.\n" +
+                    "Es por eso que es necesario activar tu cuenta haciendo clic en el siguiente enlace: " + activationUrl;
+
+
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setTo(usuario.getEmail());
+            mailMessage.setSubject(subject);
+            mailMessage.setText(message);
+            mailMessage.setFrom(fromEmail);
+
+            mailSender.send(mailMessage);
+        } catch (MailException e) {
+            // Manejo de la excepción
+            System.out.println("Error al enviar correo: " + e.getMessage());
+        }
+    }
 }
