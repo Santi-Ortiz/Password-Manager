@@ -57,7 +57,7 @@ public class DBInitializer implements CommandLineRunner {
         User user1 = new User();
         user1.setUsername("pepito");
         user1.setPassword(passwordEncoder.encode("hola1234"));
-        user1.setEmail("pepito@example.com");
+        user1.setEmail("juando02603@gmail.com");
         user1.setTelephone("123456");
         user1.setRole(role1);
         user1.setEnabled(true);
