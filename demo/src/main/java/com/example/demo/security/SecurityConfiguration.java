@@ -45,7 +45,17 @@ public class SecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request -> request
-                        .anyRequest().permitAll())
+
+                    .requestMatchers("/api/login").permitAll()
+                    .requestMatchers("/api/register").permitAll()
+
+                    .requestMatchers("/api/account-list").hasAnyAuthority("USER", "ADMIN")
+                    .requestMatchers("/api/account/**").hasAnyAuthority("USER", "ADMIN")
+                    .requestMatchers("/api/app/**").hasAnyAuthority("USER", "ADMIN")
+                    .requestMatchers("/api/twofa/**").hasAnyAuthority("USER", "ADMIN")
+                    .requestMatchers("/api/user/**").hasAnyAuthority("USER", "ADMIN")
+
+                    .anyRequest().permitAll())
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint((request, response, authException) -> {
                             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
