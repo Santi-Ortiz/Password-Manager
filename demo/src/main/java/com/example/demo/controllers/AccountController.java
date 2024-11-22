@@ -7,7 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/account")
@@ -18,21 +20,29 @@ public class AccountController {
 
     // Crear una nueva cuenta
     @PostMapping("/add")
-    public ResponseEntity<String> addAccount(@RequestBody Account account) {
+    public ResponseEntity<Map<String, String>> addAccount(@RequestBody Account account) {
         try {
             System.out.println("Entrando a endpoint de agregar cuenta");
             System.out.println("Cuenta: " + account.getAccountId());
             System.out.println("Id de app: " + account.getApp().getAppId());
             System.out.println("Contraseña: " + account.getPassword());
             System.out.println("Id de user: " + account.getUser().getUserId());
+
             accountService.addAccount(account);
             System.out.println("Cuenta creada exitosamente");
-            return ResponseEntity.ok("Cuenta creada exitosamente");
+
+            // Respuesta JSON
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Cuenta creada exitosamente");
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             System.out.println("Error al crear la cuenta: " + e.getMessage());
-            return new ResponseEntity<>("Error al crear la cuenta: " + e.getMessage(), HttpStatus.BAD_REQUEST);
+            Map<String, String> errorResponse = new HashMap<>();
+            errorResponse.put("error", "Error al crear la cuenta: " + e.getMessage());
+            return ResponseEntity.badRequest().body(errorResponse);
         }
     }
+
 
     // Obtener una cuenta por ID
     @GetMapping("/find/{id}")

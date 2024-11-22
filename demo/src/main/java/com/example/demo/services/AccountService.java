@@ -40,22 +40,30 @@ public class AccountService {
     public Account addAccount(Account account) {
         validateToken(); // Validar el token
 
-
-        App app = appRepository.findById(account.getApp().getAppId())
-                .orElseThrow(() -> new IllegalStateException("App no encontrada"));
-
+        // Verificar si el usuario existe
         User user = userRepository.findById(account.getUser().getUserId())
                 .orElseThrow(() -> new IllegalStateException("Usuario no encontrado"));
 
-        System.out.println("App desde servicio: " + app.getName());
-        System.out.println("App desde servicio: " + app.getAppId());
-        System.out.println("Usuario desde servicio: " + user.getUserId());
+        // Manejo de la App
+        App app;
+        if (account.getApp().getAppId() == null || account.getApp().getAppId() == 0) {
+            // Nueva App: Guardar primero
+            app = appRepository.save(account.getApp());
+        } else {
+            // App existente: Validar que existe en la base de datos
+            app = appRepository.findById(account.getApp().getAppId())
+                    .orElseThrow(() -> new IllegalStateException("App no encontrada"));
+        }
 
+        // Asociar App y Usuario con la Cuenta
         account.setApp(app);
         account.setUser(user);
 
+        // Guardar la cuenta
         return accountRepository.save(account);
     }
+
+
 
     @Transactional
     public Account updateAccount(Account account) {
