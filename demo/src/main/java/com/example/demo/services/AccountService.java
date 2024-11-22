@@ -69,9 +69,33 @@ public class AccountService {
         User user = userRepository.findById(account.getUser().getUserId())
                 .orElseThrow(() -> new IllegalStateException("Usuario no encontrado"));
 
+        System.out.println("Url actualizado: " + app.getUrl());
+        System.out.println("contraseña actualizado: " + account.getPassword());
+        System.out.println("nombre app actualizado: " + app.getName());
+        System.out.println("user id actualizado : " + user.getUserId());
+        System.out.println("username actualizado: " + user.getUsername());
+        System.out.println("email actualizado: " + user.getEmail());
+
+        app.setUrl(account.getApp().getUrl());
+        app.setName(account.getApp().getName());
+        app.setDescription(account.getApp().getDescription());
+        user.setUsername(account.getUser().getUsername());
+        user.setEmail(account.getUser().getEmail());
+
+        appRepository.save(app);
+        userRepository.save(user);
+
         existingAccount.setPassword(account.getPassword());
+        existingAccount.setUsernameFromApp(account.getUsernameFromApp());
         existingAccount.setApp(app);
         existingAccount.setUser(user);
+
+        System.out.println("Url actualizado: " + app.getUrl());
+        System.out.println("contraseña actualizado: " + account.getPassword());
+        System.out.println("nombre app actualizado: " + app.getName());
+        System.out.println("user id actualizado : " + user.getUserId());
+        System.out.println("username actualizado: " + user.getUsername());
+        System.out.println("email actualizado: " + user.getEmail());
 
         return accountRepository.save(existingAccount);
     }

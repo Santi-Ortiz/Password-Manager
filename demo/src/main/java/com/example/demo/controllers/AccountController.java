@@ -50,8 +50,10 @@ public class AccountController {
     @PutMapping("/update/{id}")
     public ResponseEntity<Account> updateAccount(@PathVariable Long id, @RequestBody Account account) {
         try {
+            System.out.println("Entrando a endpoint de actualizar cuenta");
             account.setAccountId(id);
             Account updatedAccount = accountService.updateAccount(account);
+            System.out.println("Saliendo a endpoint de actualizar cuenta");
             return ResponseEntity.ok(updatedAccount);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
