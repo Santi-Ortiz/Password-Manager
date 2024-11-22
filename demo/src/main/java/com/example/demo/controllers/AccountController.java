@@ -64,10 +64,13 @@ public class AccountController {
     // Eliminar una cuenta
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteAccount(@PathVariable("id") Long accountId) {
+        System.out.println("Entrando a endpoint de eliminar cuenta");
         try {
             accountService.deleteAccount(accountId);
+            System.out.println("Cuenta eliminada exitosamente controller");
             return ResponseEntity.status(HttpStatus.OK).build();    
         } catch (Exception e) {
+            System.out.println("Error al eliminar la cuenta: " + e.getMessage());
             return new ResponseEntity<>("Error al eliminar la cuenta: " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }

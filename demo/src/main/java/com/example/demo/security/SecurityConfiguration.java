@@ -6,6 +6,7 @@ import com.example.demo.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -48,12 +49,10 @@ public class SecurityConfiguration {
 
                     .requestMatchers("/api/login").permitAll()
                     .requestMatchers("/api/register").permitAll()
-
-                    .requestMatchers("/api/account-list").hasAnyAuthority("USER", "ADMIN")
-                    .requestMatchers("/api/account/**").hasAnyAuthority("USER", "ADMIN")
-                    .requestMatchers("/api/app/**").hasAnyAuthority("USER", "ADMIN")
-                    .requestMatchers("/api/twofa/**").hasAnyAuthority("USER", "ADMIN")
-                    .requestMatchers("/api/user/**").hasAnyAuthority("USER", "ADMIN")
+                    .requestMatchers("/api/account/**").authenticated()
+                    .requestMatchers("/api/app/**").authenticated()
+                    .requestMatchers("/api/twofa/**").authenticated()
+                    .requestMatchers("/api/user/**").authenticated()
 
                     .anyRequest().permitAll())
                 .exceptionHandling(exception -> exception

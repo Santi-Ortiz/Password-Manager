@@ -103,10 +103,13 @@ public class AccountService {
     @Transactional
     public void deleteAccount(Long accountId) {
         validateToken(); // Validar el token
+        System.out.println("Entrando a eliminar cuenta, token ya validado, id de cuenta: " + accountId);
 
         if (accountRepository.findById(accountId).isPresent()) {
+            System.out.println("Cuenta encontrada, eliminando cuenta");
             accountRepository.deleteById(accountId);
         } else {
+            System.out.println("Cuenta no encontrada");
             throw new IllegalStateException("Cuenta no encontrada");
         }
     }
