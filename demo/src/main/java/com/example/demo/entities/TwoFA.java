@@ -14,4 +14,5 @@ public class TwoFA {
     private User userDestination;
     private String value;
     private Date expirationTime;
+    private boolean inUse;
 }
