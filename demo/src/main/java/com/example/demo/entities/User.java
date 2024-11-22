@@ -40,6 +40,7 @@ public class User implements UserDetails {
     private List<Account> accounts;
 
     @Override
+    @JsonIgnore // Ignora este campo durante la serialización/deserialización
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.getRolType()));
     }

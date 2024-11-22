@@ -95,8 +95,6 @@ public class AccountService {
 
     @Transactional
     public List<Account> getAllAccountsByUserId(Long userId){
-        validateToken(); // Validar el token
-
         return accountRepository.findAllByUser_UserId(userId);
     }
 

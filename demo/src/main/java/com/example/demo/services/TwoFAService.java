@@ -41,6 +41,7 @@ public class TwoFAService {
 
     // Método para crear un nuevo token
     public synchronized void createToken(User userDestination) {
+        System.out.println("Entra a createToken service");
         String tokenValue = generateRandomToken();
         Date expirationTime = new Date(System.currentTimeMillis() + 5 * 60 * 1000); // 5 minutos desde ahora
 
@@ -48,6 +49,9 @@ public class TwoFAService {
         this.currentTwoFA.setExpirationTime(expirationTime);
         this.currentTwoFA.setInUse(true);
         this.currentTwoFA.setUserDestination(userDestination);
+        System.out.println("Token generado: " + tokenValue + " para el usuario: " + userDestination.getUsername()+" con email: "+userDestination.getEmail());
+        System.out.println("Duración del token: " + expirationTime);
+        System.out.println("Token en uso: " + this.currentTwoFA.isInUse());
 
         // Enviar correo con el token
         sendTokenMail(userDestination, tokenValue);
