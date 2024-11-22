@@ -39,6 +39,7 @@ public class AccountService {
     @Transactional
     public Account addAccount(Account account) {
         validateToken(); // Validar el token
+        
 
         App app = appRepository.findById(account.getApp().getAppId())
                 .orElseThrow(() -> new IllegalStateException("App no encontrada"));

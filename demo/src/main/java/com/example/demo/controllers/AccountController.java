@@ -20,9 +20,12 @@ public class AccountController {
     @PostMapping("/add")
     public ResponseEntity<String> addAccount(@RequestBody Account account) {
         try {
+            System.out.println("Entrando a endpoint de agregar cuenta");
             accountService.addAccount(account);
+            System.out.println("Cuenta creada exitosamente");
             return new ResponseEntity<>("Cuenta creada exitosamente", HttpStatus.CREATED);
         } catch (Exception e) {
+            System.out.println("Error al crear la cuenta: " + e.getMessage());
             return new ResponseEntity<>("Error al crear la cuenta: " + e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
