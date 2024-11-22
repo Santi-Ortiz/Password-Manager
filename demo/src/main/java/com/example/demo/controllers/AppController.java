@@ -28,7 +28,7 @@ public class AppController {
     public ResponseEntity<App> getAppById(@PathVariable("id") Long id){
         App app = appService.getAppById(id);
         if(app != null) {
-            return new ResponseEntity<>(app, HttpStatus.OK);
+            return ResponseEntity.ok(app);
         } else {
             return new ResponseEntity<>(new App(), HttpStatus.NOT_FOUND);
         }
@@ -39,7 +39,7 @@ public class AppController {
     public ResponseEntity<String> addApp(@RequestBody App app) {
         try {
             appService.saveApp(app);
-            return new ResponseEntity<>("App creada", HttpStatus.CREATED);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
             return new ResponseEntity<>("Error al crear la app", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -56,7 +56,7 @@ public class AppController {
 
         try {
             appService.updateApp(app);
-            return new ResponseEntity<>("App actualizada", HttpStatus.OK);
+            return ResponseEntity.ok("App actualizada exitosamente");
             
         } catch (Exception e) {
             return new ResponseEntity<>("Error al actualizar la app", HttpStatus.INTERNAL_SERVER_ERROR);
@@ -73,8 +73,8 @@ public class AppController {
         }
 
         try {
-            appService.deleteApp(id);
-            return new ResponseEntity<>("App eliminada", HttpStatus.OK);
+            appService.deleteApp(id);   
+            return ResponseEntity.ok("App eliminada exitosamente");
             
         } catch (Exception e) {
             return new ResponseEntity<>("Error al eliminar la app", HttpStatus.INTERNAL_SERVER_ERROR);

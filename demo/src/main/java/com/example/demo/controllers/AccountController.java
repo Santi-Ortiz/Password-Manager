@@ -27,7 +27,7 @@ public class AccountController {
             System.out.println("Id de user: " + account.getUser().getUserId());
             accountService.addAccount(account);
             System.out.println("Cuenta creada exitosamente");
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.ok("Cuenta creada exitosamente");
         } catch (Exception e) {
             System.out.println("Error al crear la cuenta: " + e.getMessage());
             return new ResponseEntity<>("Error al crear la cuenta: " + e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -39,7 +39,8 @@ public class AccountController {
     public ResponseEntity<Account> getAccountById(@PathVariable("id") Long accountId) {
         try {
             Account account = accountService.getAccountById(accountId);
-            return new ResponseEntity<>(account, HttpStatus.OK);
+            
+            return ResponseEntity.ok(account);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
@@ -51,7 +52,7 @@ public class AccountController {
         try {
             account.setAccountId(id);
             Account updatedAccount = accountService.updateAccount(account);
-            return new ResponseEntity<>(updatedAccount, HttpStatus.OK); 
+            return ResponseEntity.ok(updatedAccount);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
         }
@@ -63,7 +64,7 @@ public class AccountController {
     public ResponseEntity<String> deleteAccount(@PathVariable("id") Long accountId) {
         try {
             accountService.deleteAccount(accountId);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            return ResponseEntity.status(HttpStatus.OK).build();    
         } catch (Exception e) {
             return new ResponseEntity<>("Error al eliminar la cuenta: " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
@@ -74,7 +75,7 @@ public class AccountController {
     public ResponseEntity<List<Account>> getAccountsByUserId(@PathVariable("userId") Long userId) {
         try {
             List<Account> accounts = accountService.getAllAccountsByUserId(userId);
-            return new ResponseEntity<>(accounts, HttpStatus.OK);
+            return ResponseEntity.ok(accounts);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
